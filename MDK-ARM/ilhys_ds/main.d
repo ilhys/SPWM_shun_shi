@@ -37,8 +37,8 @@ ilhys_ds\main.o: ../Core/Inc/i2c.h
 ilhys_ds\main.o: ../Core/Inc/tim.h
 ilhys_ds\main.o: ../Core/Inc/usart.h
 ilhys_ds\main.o: ../Core/Inc/gpio.h
-ilhys_ds\main.o: ../../Model_OLED/./BSP/pidw/pid.h
-ilhys_ds\main.o: ../../Model_OLED/./BSP/OLED/OLED.h
+ilhys_ds\main.o: ..\..\SPWM_shun_shi\./BSP/pidw/pid.h
+ilhys_ds\main.o: ..\..\SPWM_shun_shi\./BSP/OLED/OLED.h
 ilhys_ds\main.o: D:\Keil5\ARM\ARMCC\Bin\..\include\stdio.h
 ilhys_ds\main.o: ../Middlewares/ST/ARM/DSP/Inc/arm_math.h
 ilhys_ds\main.o: ../Drivers/CMSIS/Include/core_cm3.h
