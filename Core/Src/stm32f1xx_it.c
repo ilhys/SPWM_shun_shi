@@ -27,6 +27,7 @@
 #include "arm_const_structs.h"
 #include "./BSP/pidw/pid.h"
 #include "./BSP/lvbo/lvbo.h"
+#include "./BSP/FFT/FFT.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -239,25 +240,11 @@ void DMA1_Channel1_IRQHandler(void)
   if(ADC_count>1023) 
   {
     ADC_count=0;
-//    /**********************进行傅里叶变�??*******************************/
-//    for (int i = 0; i < FFT_LENGTH; i++)
-//    { 
-//	  fft_inputbuf[i * 2] = adc_buff[i];
-//	  fft_inputbuf[i * 2 + 1] = 0;
-////	  effective_value+=(adc_buff[i]*adc_buff[i]);
-//    }
-//    arm_cfft_f32(&arm_cfft_sR_f32_len1024, fft_inputbuf, 0, 1);
-//    arm_cmplx_mag_f32(fft_inputbuf, fft_outputbuf, FFT_LENGTH);
-////    /**********************等待转化完毕*******************************/
-//    fft_outputbuf[0] /= 1024;
-//      for (int i = 1; i < FFT_LENGTH; i++)//输出各次谐波幅�??
-//    {
-//       fft_outputbuf[i] /= 512;
-//	}
-	  for (int i = 0; i < FFT_LENGTH; i++)
+//    perform_fft(adc_buff,FFT_LENGTH);
+    for (int i = 0; i < FFT_LENGTH; i++)
     { 
 //	  printf("%.3f\n",adc_buff[i]);
-	  effective_value+=(adc_buff[i])*((adc_buff[i]));
+	    effective_value+=(adc_buff[i])*((adc_buff[i]));
     }
 	effective_value=effective_value/FFT_LENGTH;
 	effective_value=sqrt(effective_value);

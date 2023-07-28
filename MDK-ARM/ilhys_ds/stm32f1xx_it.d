@@ -42,3 +42,4 @@ ilhys_ds\stm32f1xx_it.o: ../Drivers/CMSIS/DSP/Include/arm_math.h
 ilhys_ds\stm32f1xx_it.o: ../Drivers/CMSIS/DSP/Include/arm_common_tables.h
 ilhys_ds\stm32f1xx_it.o: ..\..\SPWM_shun_shi\./BSP/pidw/pid.h
 ilhys_ds\stm32f1xx_it.o: ..\..\SPWM_shun_shi\./BSP/lvbo/lvbo.h
+ilhys_ds\stm32f1xx_it.o: ..\..\SPWM_shun_shi\./BSP/FFT/FFT.h

@@ -220,10 +220,10 @@ int main(void)
 //     printf("%.3f\n", adc_buff[i]); //打印ADC_Value
 //	}
 //  printf("%.3f,%d\n",adc_buff[ADC_count],ADC_count);
-//  OLED_operate_gram(PEN_CLEAR);   
-//  OLED_printf(0,0,"HUIHUI");
-//  OLED_printf(1,0,"%.2f",ceshi);
-//  OLED_refresh_gram();
+  OLED_operate_gram(PEN_CLEAR);   
+  OLED_printf(0,0,"ILHYS");
+  OLED_printf(1,0,"%.2f",ceshi);
+  OLED_refresh_gram();
 	ceshi++;
 	if(ceshi>=65536) ceshi=0;
 //  HAL_Delay(100);
@@ -282,6 +282,13 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+//  OLED_operate_gram(PEN_CLEAR);   
+//  OLED_printf(0,0,"HUIHUI");
+//  OLED_printf(1,0,"%.2f",ceshi);
+//  OLED_refresh_gram();
+
+
 /* USER CODE END 4 */
 
 /**

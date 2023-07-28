@@ -1005,6 +1005,16 @@
               <FileType>1</FileType>
               <FilePath>..\BSP\lvbo\lvbo.c</FilePath>
             </File>
+            <File>
+              <FileName>FFT.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\BSP\FFT\FFT.c</FilePath>
+            </File>
+            <File>
+              <FileName>FFT.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\BSP\FFT\FFT.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

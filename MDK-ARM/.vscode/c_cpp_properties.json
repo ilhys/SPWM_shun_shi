@@ -11,8 +11,7 @@
                 "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\Model_OLED",
                 "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\SPWM_shun_shi\\Middlewares\\ST\\ARM\\DSP\\Inc",
                 "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\SPWM_shun_shi\\Drivers\\CMSIS\\DSP\\Include",
-                "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\Model_OLED_ADC_CESHI-????",
-                "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\Model_OLED_ADC_CESHI",
+                "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\SPWM_shun_shi",
                 "D:\\Keil5\\ARM\\ARMCC\\include",
                 "D:\\Keil5\\ARM\\ARMCC\\include\\rw",
                 "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\SPWM_shun_shi\\MDK-ARM",
@@ -21,6 +20,7 @@
                 "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\SPWM_shun_shi\\BSP\\pidw",
                 "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\SPWM_shun_shi\\BSP\\OLED",
                 "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\SPWM_shun_shi\\BSP\\lvbo",
+                "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\SPWM_shun_shi\\BSP\\FFT",
                 "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\SPWM_shun_shi\\DSP",
                 "d:\\ilhysworkspace\\32\\F103ZET6\\cubemx\\1\\SPWM\\SPWM_shun_shi\\Middlewares\\ST\\ARM\\DSP\\Lib"
             ],
