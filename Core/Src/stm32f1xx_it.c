@@ -28,6 +28,7 @@
 #include "./BSP/pidw/pid.h"
 #include "./BSP/lvbo/lvbo.h"
 #include "./BSP/FFT/FFT.h"
+#include "math.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -48,16 +49,21 @@
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 extern uint8_t AdcConvEnd;
+extern uint32_t k;
+extern uint32_t flag;
+extern uint32_t K_ZERO,ADC_ZERO;
 extern uint32_t ADC_Value[ADC_SIZE];
+extern uint16_t sin1[200];
 extern float fft_inputbuf[FFT_LENGTH * 2];  
 extern float fft_outputbuf[FFT_LENGTH];
 extern float adc_buff[FFT_LENGTH];
 extern float effect[FFT_LENGTH];
 extern float UI[FFT_LENGTH];
+extern float pid;
 
 extern float Voltage_REF;
 extern uint32_t ADC_count,eff_measure;
-extern double effective_value;
+extern double effective_value,uk;
 extern double effective_value_all;
 extern CNTL_PI_F U_pi;  
 
@@ -231,39 +237,60 @@ void DMA1_Channel1_IRQHandler(void)
   /* USER CODE BEGIN DMA1_Channel1_IRQn 1 */
   if(cnt%2==1)
   {
-//  adc_buff[ADC_count]=(ADC_Value[0]*3.3/4096+0.00-1.5)*20;
-	adc_buff[ADC_count]=MovingAverageFilter((ADC_Value[0]*3.3/4096+0.00-1.5));
-	ADC_count++;
-	cnt=1;
-  }
-  cnt++;
-  if(ADC_count>1023) 
-  {
-    ADC_count=0;
-//    perform_fft(adc_buff,FFT_LENGTH);
-    for (int i = 0; i < FFT_LENGTH; i++)
-    { 
-//	  printf("%.3f\n",adc_buff[i]);
-	    effective_value+=(adc_buff[i])*((adc_buff[i]));
+//    adc_buff[ADC_count]=(ADC_Value[0]*3.3/4096+0.00-1.5)*20;  //1.595
+	  adc_buff[ADC_count]=MovingAverageFilter((ADC_Value[0]*3.3/4096+0.00-1.595));
+//	  printf("%.3f\n",ADC_Value[0]*3.3/4096);
+	  if(adc_buff[ADC_count]>0&&adc_buff[(ADC_count+199)%200]<0)
+    {
+      K_ZERO=k;
+      ADC_ZERO=ADC_count;
+      adc_buff[0]=adc_buff[ADC_ZERO];
+      ADC_count=0;
+      flag=1;
     }
-	effective_value=effective_value/FFT_LENGTH;
-	effective_value=sqrt(effective_value);
-	if(effective_value<=100) 
+    cnt=1;
+	if(flag==1)
 	{
-		effective_value_all+=effective_value;
-		eff_measure++;
+	  Voltage_REF=fabsf(uk*((sin1[(k+200-K_ZERO)%200]-3600)*1.0/3600));
+	  effective_value=fabsf(adc_buff[ADC_count]);
+	  U_pi.Ref = (Voltage_REF);  
+	  U_pi.Fbk = (effective_value);
+      CNTL_PI_F_FUNC(&U_pi);
+      if((pid+0.005*U_pi.Out>=0)&&(pid+0.005*U_pi.Out<=1))
+	  {pid+=0.005*U_pi.Out;}
+
 	}
+	ADC_count++;
+    if (ADC_count>199)
+    {
+		ADC_count=0;
+		flag=0;
+	}
+
   }
-	if(eff_measure>4)
-	{
-	effective_value=effective_value_all/5;
-	U_pi.Ref = (Voltage_REF);  
-	U_pi.Fbk = (effective_value);     		
-	CNTL_PI_F_FUNC(&U_pi);
-//	printf("%.3f\n",effective_value);
-    eff_measure=0;
-	effective_value_all=0;
-	}
+  
+//   if((ADC_count>=((ADC_ZERO+50)%200))&&(ADC_ZERO!=210))
+//   {
+//     flag=(!flag);
+// 	  // effective_value=(((sin1[ADC_count]-3600)*1.0/3600)*adc_buff[ADC_count]+((sin1[((ADC_count+150)%200)]-3600)*1.0/3600*adc_buff[((ADC_count+150)%200)]));
+// 	  // effective_value=effective_value*1.0/sqrt(2);
+//     effective_value_all+=effective_value;
+// //	printf("%.3f\n",effective_value_all);
+//     // eff_measure++;
+//   }
+//   if(eff_measure>9)
+//   {
+// 	  effective_value=effective_value_all*1.0/10;
+// 	  printf("%.3f\n",effective_value);
+// 	  U_pi.Ref = (Voltage_REF);  
+// 	  U_pi.Fbk = (effective_value);     		
+// 	  CNTL_PI_F_FUNC(&U_pi);
+// //	printf("%.3f\n",effective_value);
+// 	  eff_measure=0;
+// 	  effective_value_all=0;
+//     ADC_ZERO=210;
+//   }
+   cnt++;
   /* USER CODE END DMA1_Channel1_IRQn 1 */
 }
 

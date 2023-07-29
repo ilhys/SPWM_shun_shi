@@ -56,22 +56,25 @@
 uint32_t size=200;
 float ceshi=0;
 float va,vb,va1;
-uint32_t ad1,ad2,i;
+uint32_t ad1,ad2,i,k;
 int count=0;
 __IO uint8_t AdcConvEnd = 0;
 uint32_t ADC_count=0,eff_measure=0;
 uint32_t ADC_Value[ADC_SIZE];
+uint32_t K_ZERO=210,ADC_ZERO=210;
+uint32_t flag=0;
 
 float adc_buff[FFT_LENGTH];
 float fft_inputbuf[FFT_LENGTH * 2];  
 float fft_outputbuf[FFT_LENGTH];  
 float effect[FFT_LENGTH];
 float UI[FFT_LENGTH];
+float pid=0;
 
 float Voltage_REF=0.5143;
 double effective_value;
 double effective_value_all;
-double uk=0.7;
+double uk=0.731;
 CNTL_PI_F U_pi;              //U_pi
 
 /* USER CODE END PV */
@@ -106,7 +109,7 @@ void key_scan()
 		if(HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_4) == GPIO_PIN_RESET)
 		{
 			Voltage_REF+=0.001;
-			uk+=0.003;
+			uk+=0.0001;
 			HAL_GPIO_TogglePin(LED1_GPIO_Port,LED1_Pin);               //PE5  0
 			while(HAL_GPIO_ReadPin(GPIOE,GPIO_PIN_4) == GPIO_PIN_RESET );
 		}
@@ -127,14 +130,16 @@ uint16_t sin1[200] = {3600,3713,3825,3938,4051,4163,4274,4385,4495,4604,4712,481
 2704,2814,2925,3036,3148,3261,3374,3486}; 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	static int k = 0;
 	if(htim->Instance == TIM1)
 	{
-//    	if(U_pi.Out>0&&U_pi.Out<1)
-//		{
-			TIM1->CCR1=3600+(sin1[k]-3600)*U_pi.Out*0.99;
-//		}
-//		TIM1->CCR1=3600+(sin1[k]-3600)*uk*0.98;
+		
+//		TIM1->CCR1=3600+(3600)*U_pi.Out*0.99;
+    	if(pid>=0&&pid<=1)
+		{
+			 TIM1->CCR1=3600+(sin1[k]-3600)*pid*0.99;
+//			 TIM1->CCR1=3600+(sin1[k]-3600)*U_pi.Out*0.99;
+		}
+//		TIM1->CCR1=3600+(sin1[k]-3600)*uk*0.99;
 //		TIM1->CCR1=sin1[k];
 		k++;
 		if(k == size)k = 0;
@@ -206,7 +211,7 @@ int main(void)
   HAL_TIM_Base_Start_IT(&htim3); //�??启定时器
   ceshi=156.0212;
   CNTL_PI_F_init(&U_pi);//U_pi初始值化
-  U_pi.Kp = 0.8;    U_pi.Ki = 0.5;
+  U_pi.Kp = 0.01;    U_pi.Ki = 0.0001;
   
   /* USER CODE END 2 */
 
@@ -215,15 +220,23 @@ int main(void)
   while (1)
   {
     key_scan();
+//	if (flag==1)
+//	{
+//		printf("%d,%d,%d,%d\n",(k+200-K_ZERO)%200,ADC_count,K_ZERO,ADC_ZERO);
+//	}
 //	for (uint16_t i = 0; i < FFT_LENGTH; i++)
 //	{
 //     printf("%.3f\n", adc_buff[i]); //打印ADC_Value
 //	}
 //  printf("%.3f,%d\n",adc_buff[ADC_count],ADC_count);
-  OLED_operate_gram(PEN_CLEAR);   
-  OLED_printf(0,0,"ILHYS");
-  OLED_printf(1,0,"%.2f",ceshi);
-  OLED_refresh_gram();
+//  OLED_operate_gram(PEN_CLEAR);   
+//  OLED_printf(0,0,"ILHYS");
+//  OLED_printf(1,0,"THD");
+//  OLED_printf(2,0,"%.2f",ceshi);
+//  OLED_printf(3,0,"%.2f",U_pi.Out);
+//  OLED_printf(4,0,"%.2f",uk);
+//  OLED_printf(4,0,"%d",ADC_Value[0]);
+//	OLED_refresh_gram();
 	ceshi++;
 	if(ceshi>=65536) ceshi=0;
 //  HAL_Delay(100);

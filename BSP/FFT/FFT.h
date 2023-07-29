@@ -2,6 +2,6 @@
 #define __FFT_H__
 
 void perform_fft(float32_t* input, int length);
-double GetTHD();
+double GetTHD(void);
 
 #endif

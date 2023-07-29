@@ -28,7 +28,7 @@ void perform_fft(float32_t* input, int length)
 
 
 // 设采样频率10K 9.765625 fft_outputbuf[5]为48.828125HZ幅值 [4] 39.0625 [6] 58.59375
-double GetTHD()
+double GetTHD(void)
 {
     static  double  U0=0.0,UN=0.0,THD=0.0;
     static  double thd_numerator = 0.0;

@@ -11,7 +11,7 @@ void CNTL_PI_F_init(CNTL_PI_F *k){
 	k->Kp = 0;
 	k->Ki = 0;
 	k->Umax = (1.0);
-	k->Umin = (0.0);
+	k->Umin = (-1.0);
 	k->up = 0;
 	k->ui = 0;
 	k->v1 = 0;
